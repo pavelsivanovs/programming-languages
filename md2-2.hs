@@ -1,6 +1,8 @@
 {-
 Autors: Pavels Ivanovs pi19003
 -}
+-- šie valodas paplašinājumi ir nepieciešami, lai varētu
+-- rakstīt tādas apakšfunkciju deklarācijas kā funkcijai mmf
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
@@ -11,6 +13,9 @@ data TTT aa = LeafNode aa
 mm :: forall aa. (aa -> aa) -> TTT aa -> TTT aa
 mm f tree = mmf tree 
   where 
+    -- vienīgais iemesls, kāpēc ir izveidota mmf funkcija,
+    -- lai tajā varētu pielietot map un f būtu izmantojams no 
+    -- ārēja scope un tādējādi to nevajadzētu pārnest kā argumentu
     mmf :: TTT aa -> TTT aa
     mmf (Node aa nodeList) = Node (f aa) (map mmf nodeList)
     mmf (LeafNode aa) = LeafNode $ f aa
