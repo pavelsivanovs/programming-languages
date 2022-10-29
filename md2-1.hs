@@ -1,3 +1,7 @@
+{-
+Autors: Pavels Ivanovs pi19003
+-}
+
 aa :: (Eq a) => [a] -> [(a,a)] -> [a]
 aa (a:as) dict
   | found = snd el : (aa as $ removeElement el dict)
