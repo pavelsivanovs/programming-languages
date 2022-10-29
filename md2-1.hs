@@ -13,6 +13,7 @@ aa [] _ = []
 
 {-
 Funkcija pārbauda, vai padotais elements ir atrodams kā viens no vārdnicas indeksiem.
+Ja elements neatbilst vārdnīcas pirmajam elementam, pārbaudām palikušajā vārdnīcā.
 -}
 isElemInDict :: (Eq a) => a -> [(a,a)] -> Bool
 isElemInDict el (d:dict)
@@ -23,6 +24,7 @@ isElemInDict _ [] = False
 
 {-
 Funkcija meklē vārdnīcā a elementam atbilstošu "tulkojumu".
+Ja elements neatbilst vārdnīcas pirmajam elementam, meklējām palikušajā vārdnīcā.
 -}
 findElement :: (Eq a) => a ->[(a,a)] -> (a,a)
 findElement a (d:dicts)
@@ -79,6 +81,7 @@ cc_main (m,a,aBase)
 
 {-
 Funkcija izdzēš duplikātus no vārdnīcas rekursīvā veidā.
+Pirmo vārdnīcas elementu konkatinē ar palikušo vārdnīcu, kur nav pirmā elementā un kur ir jau izņemti citi duplikāti.
 -}
 removeDuplicates :: (Eq a) => [a] -> [a]
 removeDuplicates (d:dict) = d : (removeDuplicates $ filter (/=d) dict)
