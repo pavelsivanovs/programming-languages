@@ -1,24 +1,14 @@
 {-
 Autors: Pavels Ivanovs pi19003
 -}
--- šie valodas paplašinājumi ir nepieciešami, lai varētu
--- rakstīt tādas apakšfunkciju deklarācijas kā funkcijai mmf
-{-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 
-data TTT aa = LeafNode aa
-  | Node aa [TTT aa]
+data TTT aa = EmptyNode
+  | Node aa (TTT aa) (TTT aa) (TTT aa)
   deriving Show
 
-mm :: forall aa. (aa -> aa) -> TTT aa -> TTT aa
-mm f tree = mmf tree 
-  where 
-    -- vienīgais iemesls, kāpēc ir izveidota mmf funkcija,
-    -- lai tajā varētu pielietot map un f būtu izmantojams no 
-    -- ārēja scope un tādējādi to nevajadzētu pārnest kā argumentu
-    mmf :: TTT aa -> TTT aa
-    mmf (Node aa nodeList) = Node (f aa) (map mmf nodeList)
-    mmf (LeafNode aa) = LeafNode $ f aa
+mm :: (aa -> aa) -> TTT aa -> TTT aa
+mm f EmptyNode = EmptyNode
+mm f (Node aa n1 n2 n3) = (Node (f aa) (mm f n1) (mm f n2) (mm f n3))
 
 a :: Integer -> Integer
 a i = i*i
@@ -32,24 +22,26 @@ Funkcija aprēķina absolūtu attālumu no skaitļa i līdz skaitlim 100.
 c :: Integer -> Integer
 c i = abs $ 100 - i
 
-testTree = Node 9 [
-            LeafNode 7, 
-            Node 3 [
-              LeafNode (-5), 
-              LeafNode 13, 
-              LeafNode (-27)
-            ], 
-            Node 20 [
-              LeafNode 1, 
-              Node 0 [
-                LeafNode 100
-              ]
-            ], 
-            LeafNode 19,
-            Node 11111 [
-              LeafNode (-79)
-            ]
-          ]
+testTree :: TTT Integer
+testTree = Node (-1) 
+  (Node 27 
+    (Node 1579 EmptyNode EmptyNode EmptyNode)
+    (Node 27 EmptyNode EmptyNode EmptyNode)
+    EmptyNode)
+  (Node (-99)
+    (Node 5 
+      (Node 65 
+        (Node 1 EmptyNode EmptyNode EmptyNode)
+        (Node 2
+          (Node 3 EmptyNode EmptyNode EmptyNode)
+          EmptyNode
+          EmptyNode) 
+        EmptyNode)
+      (Node 75 EmptyNode EmptyNode EmptyNode)
+      (Node (-75) EmptyNode EmptyNode EmptyNode)) 
+    EmptyNode 
+    EmptyNode)
+  (Node 100 EmptyNode EmptyNode EmptyNode)
 
 ff_a :: TTT Integer -> TTT Integer
 ff_a tree = mm a tree
