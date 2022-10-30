@@ -22,6 +22,24 @@ Funkcija aprēķina absolūtu attālumu no skaitļa i līdz skaitlim 100.
 c :: Integer -> Integer
 c i = abs $ 100 - i
 
+{-
+testTree koka reprezentācija:
+
+           (-1)
+          _/ | \_
+         /   |   \
+       27  (-99)  100
+     _/ |    \_ 
+    /  /       \
+1579  27        5
+            __/|\__
+           /   |   \
+          65  75  (-75)
+         / \
+        1   2
+            |
+            3
+-}
 testTree :: TTT Integer
 testTree = Node (-1) 
   (Node 27 
